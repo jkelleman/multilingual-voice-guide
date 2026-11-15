@@ -1,4 +1,4 @@
-# Multilingual Voice Guide
+# Multilingual Voice Guide: Voice and Tone Localization for Conversational AI
 
 A voice-and-tone system for an AI customer-support agent that works in many languages: one core voice, decisions for each locale (register, apology level, vocabulary), the same seven support turns written in five locales, a shared glossary, a localization QA checklist, and a linter that catches missing turns, broken placeholders, glossary drift, wrong register, and voice turns that run too long.
 
