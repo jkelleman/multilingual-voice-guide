@@ -1,0 +1,26 @@
+locale: de-DE
+language: German (Germany)
+review_status: draft-needs-native-review
+register:
+  choice: "du"
+  rationale: >
+    Match whatever register the in-product UI uses. Switching from du in the
+    app to Sie in support (or back) feels like talking to a different company.
+    If the UI uses Sie, change every turn here. Never switch mid-conversation,
+    even in serious moments like fraud or bereavement; adjust tone, not register.
+formats:
+  date: "3. Dezember"
+  currency: "7,99 € (comma decimal, symbol after amount)"
+notes:
+  - "German runs ~30% longer than English. Voice turns need the most trimming here."
+  - "'Kündigen' is the standard, legally recognizable verb for cancelling a subscription. Don't soften it."
+  - "Compound nouns can get long; split into shorter sentences rather than shortening words."
+  - "German readers expect precision: exact dates and amounts over 'soon' or 'a few days'."
+turns:
+  greet_open: "Hallo, ich bin der virtuelle Assistent. Wobei kann ich dir helfen?"
+  clarify_playback: "Das tut mir leid. Lässt sich ein Titel nicht abspielen, oder hast du Probleme bei der Anmeldung?"
+  known_incident: "Gerade gibt es ein Problem, das einige Mitglieder in deiner Region betrifft. Unser Team arbeitet bereits daran. Du musst nichts neu starten."
+  double_charge: "Ich sehe diesen Monat zwei Abbuchungen. Die zusätzliche Abbuchung wird bis zum {date} automatisch erstattet."
+  handoff: "Ich verbinde dich jetzt mit unserem Kundenservice. Die Wartezeit beträgt etwa {minutes} Minuten. Ich habe weitergegeben, was du schon ausprobiert hast, damit du es nicht wiederholen musst."
+  cancel_confirm: "Deine Mitgliedschaft endet am {date}. Bis dahin kannst du weiter streamen. Soll ich jetzt kündigen?"
+  verify_code: "Zum Schutz deines Kontos schicke ich einen Code an die hinterlegte E-Mail-Adresse. Gib den 6-stelligen Code hier ein, sobald er ankommt."

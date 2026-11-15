@@ -1,0 +1,8 @@
+term_id,en-US,es-419,pt-BR,de-DE,ja-JP,notes
+account,account,cuenta,conta,Konto,アカウント,
+code,code,código,código,Code,コード,Verification code. ja may use 確認コード.
+membership,membership,membresía,assinatura,Mitgliedschaft,メンバーシップ,pt-BR uses assinatura (subscription) by convention.
+support_agent,support agent,agente de soporte,atendente,Kundenservice,サポート担当者,de-DE refers to the team (Kundenservice) rather than a job title.
+sign_in,signing in,iniciar sesión,entrar na sua conta,Anmeldung,ログイン,
+plan_with_ads,plan with ads,plan con anuncios,plano com anúncios,Abo mit Werbung,広告つきプラン,Not used in sample turns; keep consistent with the plans page.
+profile,profile,perfil,perfil,Profil,プロフィール,Not used in sample turns.

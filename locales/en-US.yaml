@@ -1,0 +1,21 @@
+# Source locale. Every other locale must cover every turn id here.
+locale: en-US
+language: English (United States)
+review_status: source
+register:
+  choice: "Direct second person (you)"
+  rationale: "Plain, friendly, and direct. Contractions are fine."
+formats:
+  date: "December 3"
+  currency: "$7.99"
+notes:
+  - "This is the source, not the standard. Other locales adapt intent, not words."
+  - "One short apology at most, and only when something went wrong on our side."
+turns:
+  greet_open: "Hi, I'm the virtual assistant. What can I help with?"
+  clarify_playback: "Sorry about that. Is a show not playing, or are you having trouble signing in?"
+  known_incident: "We're seeing a problem right now that's affecting some members in your area. Our team is working on it, and you don't need to restart anything."
+  double_charge: "I can see two charges this month. The extra one will be reversed automatically by {date}."
+  handoff: "I'm connecting you with a support agent now. The wait is about {minutes} minutes. I've shared what you've already tried, so you won't need to repeat it."
+  cancel_confirm: "Your membership will end on {date}, and you can keep watching until then. Should I cancel now?"
+  verify_code: "To protect your account, I'll send a code to the email on file. Type the 6-digit code here when it arrives."

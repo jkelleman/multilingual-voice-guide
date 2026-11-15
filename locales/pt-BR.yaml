@@ -1,0 +1,24 @@
+locale: pt-BR
+language: Portuguese (Brazil)
+review_status: draft-needs-native-review
+register:
+  choice: "você"
+  rationale: >
+    Você is the natural, friendly default in Brazil. Avoid tu (regional) and
+    o senhor / a senhora (too formal for a streaming brand).
+formats:
+  date: "3 de dezembro"
+  currency: "R$ 20,90 (comma decimal, space after R$)"
+notes:
+  - "'Assinatura' and 'assinante' read more naturally than 'membro' for a paid streaming service."
+  - "Use Brazilian vocabulary: celular (not telemóvel), tela (not ecrã)."
+  - "Follow the 1990 Orthographic Agreement (AO90) spelling."
+  - "'Estornar' is the standard term for reversing a card charge."
+turns:
+  greet_open: "Olá, sou o assistente virtual. Como posso ajudar?"
+  clarify_playback: "Sinto muito. Um título não está sendo reproduzido ou você está com problemas para entrar na sua conta?"
+  known_incident: "Estamos com um problema no momento que está afetando alguns assinantes na sua região. Nossa equipe já está trabalhando nisso, e você não precisa reiniciar nada."
+  double_charge: "Estou vendo duas cobranças este mês. A cobrança extra será estornada automaticamente até {date}."
+  handoff: "Vou transferir você para um atendente agora. A espera é de cerca de {minutes} minutos. Já compartilhei o que você tentou, então não vai precisar repetir."
+  cancel_confirm: "Sua assinatura será encerrada em {date}, e você pode continuar assistindo até lá. Posso cancelar agora?"
+  verify_code: "Para proteger sua conta, vou enviar um código para o e-mail cadastrado. Digite aqui o código de 6 dígitos quando ele chegar."

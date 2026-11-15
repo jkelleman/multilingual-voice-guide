@@ -1,0 +1,38 @@
+# Settings for scripts/lint_locales.py
+#
+# chars_per_second: rough speaking-rate estimates for flagging long voice
+# turns. These are planning numbers, not measurements. Replace them with
+# real TTS durations once you have the voice vendor's output.
+#
+# max_expansion: warn when a turn is this many times longer (in characters)
+# than the en-US source. Not used for ja-JP, where character counts aren't
+# comparable to alphabetic languages.
+
+source_locale: en-US
+max_voice_seconds: 10
+
+locales:
+  en-US:
+    chars_per_second: 15
+    banned: ["please be advised", "kindly", "i understand your frustration", "sad to see you go", "at this time"]
+    register_violations: []
+  es-419:
+    chars_per_second: 16
+    max_expansion: 1.35
+    banned: ["estimado cliente", "le informamos", "lamentamos informarle"]
+    register_violations: ["\\busted(es)?\\b", "\\bvosotros\\b"]
+  pt-BR:
+    chars_per_second: 15
+    max_expansion: 1.35
+    banned: ["prezado cliente", "informamos que", "lamentamos informar"]
+    register_violations: ["\\bo senhor\\b", "\\ba senhora\\b", "\\bvós\\b"]
+  de-DE:
+    chars_per_second: 15
+    max_expansion: 1.45
+    banned: ["sehr geehrte", "wir bitten um ihr verständnis"]
+    # Formal Sie/Ihnen/Ihr capitalized mid-sentence while register is du.
+    register_violations: ["(?<![.!?]\\s)(?<!^)\\b(Sie|Ihnen|Ihr|Ihre|Ihren|Ihrem)\\b"]
+  ja-JP:
+    chars_per_second: 8
+    banned: ["深くお詫び申し上げます"]
+    register_violations: []

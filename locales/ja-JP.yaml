@@ -1,0 +1,25 @@
+locale: ja-JP
+language: Japanese (Japan)
+review_status: draft-needs-native-review
+register:
+  choice: "丁寧語 (desu/masu polite form), light 尊敬語 where natural"
+  rationale: >
+    Polite but not stiff. Heavy honorifics (excessive 謙譲語) read as a call
+    center script and slow the member down. Casual form would feel
+    disrespectful in a support context.
+formats:
+  date: "12月3日"
+  currency: "¥990 (no decimals)"
+notes:
+  - "The one-apology rule adapts here: a short apology for the inconvenience (ご不便をおかけして申し訳ありません) is expected even when the problem isn't our fault. Leaving it out reads as cold."
+  - "Still lead with the answer after the apology. Don't stack apologies."
+  - "Japanese is shorter in characters but not in reading or speaking time. Measure voice turns in seconds, not characters."
+  - "Avoid overusing katakana loanwords when a common Japanese word exists."
+turns:
+  greet_open: "こんにちは。バーチャルアシスタントです。どのようなご用件でしょうか？"
+  clarify_playback: "ご不便をおかけして申し訳ありません。作品が再生されないのでしょうか、それともログインできないのでしょうか？"
+  known_incident: "現在、お住まいの地域の一部のメンバーに影響する問題が発生しています。担当チームが対応中のため、機器を再起動していただく必要はありません。"
+  double_charge: "今月、2件の請求が確認できました。重複分は{date}までに自動的に返金されます。"
+  handoff: "これからサポート担当者におつなぎします。待ち時間は約{minutes}分です。これまでにお試しいただいた内容は共有済みですので、改めてご説明いただく必要はありません。"
+  cancel_confirm: "メンバーシップは{date}に終了し、それまでは引き続きご視聴いただけます。今すぐ解約してもよろしいですか？"
+  verify_code: "アカウント保護のため、ご登録のメールアドレスに確認コードをお送りします。届いたら、6桁のコードをこちらに入力してください。"

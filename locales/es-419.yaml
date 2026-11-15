@@ -1,0 +1,25 @@
+locale: es-419
+language: Spanish (Latin America)
+review_status: draft-needs-native-review
+register:
+  choice: "tú"
+  rationale: >
+    Informal tú matches a consumer entertainment brand across most of Latin
+    America. Avoid voseo (vos) so one variant works region-wide, and avoid
+    usted except where a market review says otherwise.
+formats:
+  date: "3 de diciembre"
+  currency: "Local currency symbol and format per country (MXN, COP, ARS, etc.)"
+notes:
+  - "Use neutral Latin American vocabulary: celular (not móvil), computadora (not ordenador)."
+  - "Avoid Spain-only expressions (vale, vosotros)."
+  - "'Miembros' is acceptable for members; keep it consistent with in-product UI."
+  - "Spanish runs ~20-30% longer than English. Watch voice turns."
+turns:
+  greet_open: "Hola, soy el asistente virtual. ¿En qué te puedo ayudar?"
+  clarify_playback: "Lo siento. ¿No se reproduce un título o tienes problemas para iniciar sesión?"
+  known_incident: "En este momento hay un problema que afecta a algunos miembros de tu zona. Nuestro equipo ya está trabajando en ello y no necesitas reiniciar nada."
+  double_charge: "Veo dos cargos este mes. El cargo adicional se revertirá automáticamente a más tardar el {date}."
+  handoff: "Te estoy comunicando con un agente de soporte. La espera es de unos {minutes} minutos. Ya le compartí lo que intentaste, así que no tendrás que repetirlo."
+  cancel_confirm: "Tu membresía terminará el {date} y podrás seguir viendo hasta entonces. ¿La cancelo ahora?"
+  verify_code: "Para proteger tu cuenta, enviaré un código al correo electrónico registrado. Escribe aquí el código de 6 dígitos cuando te llegue."
