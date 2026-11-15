@@ -1,4 +1,14 @@
+<p align="center"><img src="assets/banner.png" alt="Multilingual Voice Guide banner: speech bubbles saying hello in five languages" width="100%"></p>
+
 # Multilingual Voice Guide: Voice and Tone Localization for Conversational AI
+
+[![Lint locales](https://github.com/jkelleman/multilingual-voice-guide/actions/workflows/lint.yml/badge.svg)](https://github.com/jkelleman/multilingual-voice-guide/actions/workflows/lint.yml)
+![locales: en · es · pt · de · ja](https://img.shields.io/badge/locales-en%20%C2%B7%20es%20%C2%B7%20pt%20%C2%B7%20de%20%C2%B7%20ja-14627a)
+![focus: voice & tone](https://img.shields.io/badge/focus-voice%20%26%20tone-7ce0c3)
+![channels: chat + voice](https://img.shields.io/badge/channels-chat%20%2B%20voice-0c3c4c)
+![Python 3.12](https://img.shields.io/badge/python-3.12-3776AB?logo=python&logoColor=white)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Built by Jen Kelleman](https://img.shields.io/badge/built%20by-Jen%20Kelleman-555555?logo=github&logoColor=white)](https://github.com/jkelleman)
 
 A voice-and-tone system for an AI customer-support agent that works in many languages: one core voice, decisions for each locale (register, apology level, vocabulary), the same seven support turns written in five locales, a shared glossary, a localization QA checklist, and a linter that catches missing turns, broken placeholders, glossary drift, wrong register, and voice turns that run too long.
 
