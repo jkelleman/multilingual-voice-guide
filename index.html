@@ -78,7 +78,7 @@
 <script type="module">
 import * as yaml from "./assets/vendor/js-yaml.mjs";
 import { marked } from "./assets/vendor/marked.esm.js";
-import { trackTabs, text, esc } from "./assets/tabs.js";
+import { trackTabs, text, esc, renderMd } from "./assets/tabs.js";
 
 const LOCALES = ["en-US", "es-419", "pt-BR", "de-DE", "ja-JP"];
 const NAMES = { greet_open: "Greeting", clarify_playback: "Clarify", known_incident: "Known incident", double_charge: "Double charge", handoff: "Handoff", cancel_confirm: "Cancel", verify_code: "Verify code" };
@@ -108,7 +108,8 @@ const glossary = csv(glossCsv);
 const len = (s) => [...s].length;
 
 function lint(loc, tid) {
-  const c = cfg.locales[loc] || {}, t = data[loc].turns[tid], s = src[tid], out = [];
+  const c = cfg.locales[loc] || {}, t = data[loc].turns?.[tid], s = src[tid], out = [];
+  if (typeof t !== "string") return { secs: 0, out: [["err", "Missing turn: every locale must cover every source turn"]] };
   const a = (t.match(PH) || []).sort().join(), b = (s.match(PH) || []).sort().join();
   if (a !== b) out.push(["err", `Placeholders differ from the source`]);
   if (loc !== cfg.source_locale) for (const g of glossary) {
@@ -134,10 +135,10 @@ function show(tid) {
   document.getElementById("cards").innerHTML = LOCALES.map((loc) => {
     const d = data[loc], { secs, out } = lint(loc, tid);
     const pct = Math.min(100, (secs / cfg.max_voice_seconds) * 100);
-    const say = esc(d.turns[tid]).replace(PH, (m) => `<mark>${m}</mark>`);
-    return `<article class="card loc" lang="${loc}">
+    const say = esc(d.turns?.[tid] ?? "").replace(PH, (m) => `<mark>${m}</mark>`);
+    return `<article class="card loc">
       <div class="head"><span class="code">${loc}</span><span class="tag">${esc(d.review_status)}</span></div>
-      <p class="say" style="margin:0">${say}</p>
+      <p class="say" lang="${loc}" style="margin:0">${say || '<span class="muted">No turn written yet.</span>'}</p>
       <div><div class="meter ${secs > cfg.max_voice_seconds ? "over" : ""}" role="img" aria-label="About ${secs.toFixed(1)} seconds spoken"><i style="width:${pct}%"></i></div>
       <div class="muted mono" style="margin-top:6px">~${secs.toFixed(1)}s spoken · ${esc(d.register.choice)}</div></div>
       <ul class="findings">${out.map(([k, m]) => `<li class="${k}">${esc(m)}</li>`).join("")}</ul>
@@ -159,7 +160,7 @@ const cols = ["term_id", ...LOCALES, "notes"];
 document.getElementById("gloss").innerHTML = `<table><thead><tr>${cols.map((c) => `<th>${c === "term_id" ? "Term" : c === "notes" ? "Notes" : c}</th>`).join("")}</tr></thead>
   <tbody>${glossary.map((g) => `<tr>${cols.map((c) => `<td${LOCALES.includes(c) ? ` lang="${c}"` : ""}${c === "term_id" ? ' class="mono"' : ""}>${esc(g[c])}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
 
-await Promise.all([...document.querySelectorAll("[data-md]")].map(async (el) => { el.innerHTML = marked.parse(await text(el.dataset.md)); }));
+await Promise.all([...document.querySelectorAll("[data-md]")].map((el) => renderMd(el, marked, "multilingual-voice-guide")));
 trackTabs();
 </script>
 </body>
