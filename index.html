@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multilingual Voice Guide · Jen Kelleman</title>
+<meta name="description" content="A voice-and-tone system for a multilingual AI support agent: one core voice, seven support turns in five locales, a shared glossary, and a linter that checks them.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.loc { display: flex; flex-direction: column; gap: 12px; }
+.loc .head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.loc .code { font-family: var(--mono); font-size: 14px; font-weight: 600; }
+.loc .say { font-size: 17px; line-height: 1.55; flex: 1; }
+.loc .say mark { background: var(--accent-soft); color: var(--accent); border-radius: 4px; padding: 0 3px; font-family: var(--mono); font-size: .85em; }
+.meter { height: 6px; background: var(--bg); border-radius: 99px; overflow: hidden; border: 1px solid var(--rule); }
+.meter i { display: block; height: 100%; background: var(--ink); border-radius: 99px; }
+.meter.over i { background: var(--no); }
+.findings { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.findings li::before { margin-right: 6px; font-weight: 700; }
+.findings .ok::before { content: "✓"; color: var(--ok); }
+.findings .warn::before { content: "!"; color: var(--warn); }
+.findings .err::before { content: "✗"; color: var(--no); }
+.locgrid { display: grid; gap: 16px; }
+@media (min-width: 760px) { .locgrid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1040px) { .locgrid { grid-template-columns: repeat(3, 1fr); } }
+.dec dt { font-family: var(--mono); font-size: 14px; font-weight: 600; }
+.dec ul { margin: 8px 0 0; padding-left: 18px; color: var(--graphite); font-size: 15px; }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="name" href="https://aiwithjen.com">Jen Kelleman</a>
+  <nav><a href="https://aiwithjen.com/code">Prototypes</a><a href="https://github.com/jkelleman/multilingual-voice-guide">Code on GitHub</a></nav>
+</div></header>
+
+<main>
+<div class="wrap hero">
+  <p class="label">Multilingual Voice Guide</p>
+  <h1>One voice, <em>five languages.</em></h1>
+  <p class="lede">A voice-and-tone system for an AI customer-support agent. Pick a support moment and compare how it reads in each locale, with the same checks the linter runs in CI.</p>
+  <ul class="facts"><li><b>7</b> support turns</li><li><b>5</b> locales</li><li>chat and voice</li><li>linter in CI</li></ul>
+  <div class="cta"><a class="btn primary" href="#compare">Compare a turn</a><a class="btn" href="https://github.com/jkelleman/multilingual-voice-guide">View the code</a></div>
+  <p class="note">Independent portfolio project, written for a fictional streaming service. Translations are the author's design drafts and are marked for native review before any production use.</p>
+</div>
+
+<nav class="tabs" aria-label="Sections"><div class="wrap">
+  <a href="#compare">Compare a turn</a><a href="#locales">Locale decisions</a><a href="#glossary">Glossary</a><a href="#voice">Core voice</a><a href="#adapting">Adapting by culture</a><a href="#qa">QA checklist</a>
+</div></nav>
+
+<section class="block" id="compare"><div class="wrap">
+  <h2>Compare a turn</h2>
+  <p class="sub">Each card shows the turn, its spoken length against the 10-second voice budget, and what the linter finds. The page reads the same YAML files the linter checks.</p>
+  <div class="chips" role="group" aria-label="Support turn" id="turns"></div>
+  <div class="locgrid" id="cards" aria-live="polite"></div>
+</div></section>
+
+<section class="block" id="locales"><div class="wrap">
+  <h2>Locale decisions</h2>
+  <p class="sub">Register, formats and the notes that explain why each locale adapts the intent and not the words.</p>
+  <div class="grid g2" id="decisions"></div>
+</div></section>
+
+<section class="block" id="glossary"><div class="wrap">
+  <h2>Glossary</h2>
+  <p class="sub">Shared terms. The linter fails a turn when the source uses a glossary term and the locale drifts from it.</p>
+  <div class="tablewrap" id="gloss"></div>
+</div></section>
+
+<section class="block" id="voice"><div class="wrap"><h2>Core voice</h2><div class="prose" data-md="voice/core-voice.md"></div></div></section>
+<section class="block" id="adapting"><div class="wrap"><h2>Adapting by culture</h2><div class="prose" data-md="docs/adapting-patterns.md"></div></div></section>
+<section class="block" id="qa"><div class="wrap"><h2>QA checklist</h2><div class="prose" data-md="checklists/localization-qa.md"></div></div></section>
+</main>
+
+<footer><div class="wrap"><span>Built by <a href="https://aiwithjen.com">Jen Kelleman</a>, content designer for AI.</span><a href="https://github.com/jkelleman/multilingual-voice-guide">Source on GitHub</a></div></footer>
+
+<script type="module">
+import * as yaml from "./assets/vendor/js-yaml.mjs";
+import { marked } from "./assets/vendor/marked.esm.js";
+import { trackTabs, text, esc } from "./assets/tabs.js";
+
+const LOCALES = ["en-US", "es-419", "pt-BR", "de-DE", "ja-JP"];
+const NAMES = { greet_open: "Greeting", clarify_playback: "Clarify", known_incident: "Known incident", double_charge: "Double charge", handoff: "Handoff", cancel_confirm: "Cancel", verify_code: "Verify code" };
+const PH = /\{[a-z_]+\}/g;
+
+const [cfg, glossCsv, ...locs] = await Promise.all([
+  text("scripts/lint_config.yaml").then(yaml.load),
+  text("glossary/glossary.csv"),
+  ...LOCALES.map((l) => text(`locales/${l}.yaml`).then(yaml.load)),
+]);
+const data = Object.fromEntries(LOCALES.map((l, i) => [l, locs[i]]));
+const src = data[cfg.source_locale].turns;
+
+function csv(s) {
+  const rows = []; let row = [], cur = "", q = false;
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i];
+    if (q) { if (c === '"' && s[i + 1] === '"') { cur += '"'; i++; } else if (c === '"') q = false; else cur += c; }
+    else if (c === '"') q = true; else if (c === ",") { row.push(cur); cur = ""; }
+    else if (c === "\n") { row.push(cur); rows.push(row); row = []; cur = ""; } else if (c !== "\r") cur += c;
+  }
+  if (cur || row.length) { row.push(cur); rows.push(row); }
+  const [h, ...rest] = rows;
+  return rest.filter((r) => r.length > 1).map((r) => Object.fromEntries(h.map((k, i) => [k, r[i] ?? ""])));
+}
+const glossary = csv(glossCsv);
+const len = (s) => [...s].length;
+
+function lint(loc, tid) {
+  const c = cfg.locales[loc] || {}, t = data[loc].turns[tid], s = src[tid], out = [];
+  const a = (t.match(PH) || []).sort().join(), b = (s.match(PH) || []).sort().join();
+  if (a !== b) out.push(["err", `Placeholders differ from the source`]);
+  if (loc !== cfg.source_locale) for (const g of glossary) {
+    const exp = g[loc];
+    if (g[cfg.source_locale] && s.toLowerCase().includes(g[cfg.source_locale].toLowerCase()) && exp && !t.toLowerCase().includes(exp.toLowerCase()))
+      out.push(["err", `Glossary: use “${exp}” for ${g.term_id}`]);
+  }
+  for (const p of c.register_violations || []) if (new RegExp(p).test(t)) out.push(["err", "Register switches mid-conversation"]);
+  for (const p of c.banned || []) if (t.toLowerCase().includes(p.toLowerCase())) out.push(["warn", `Banned phrase: “${p}”`]);
+  const ratio = len(t) / len(s);
+  if (c.max_expansion && ratio > c.max_expansion) out.push(["warn", `${ratio.toFixed(2)}× longer than the source (budget ${c.max_expansion}×)`]);
+  const secs = len(t.replace(PH, "xxxxx")) / (c.chars_per_second || 15);
+  if (secs > cfg.max_voice_seconds) out.push(["warn", `About ${Math.round(secs)}s spoken, over the ${cfg.max_voice_seconds}s voice budget. Trim or split.`]);
+  if (!out.length) out.push(["ok", "Linter: no issues"]);
+  return { secs, out };
+}
+
+const turnIds = Object.keys(src);
+const turnsEl = document.getElementById("turns");
+turnsEl.innerHTML = turnIds.map((t, i) => `<button class="chip" aria-pressed="${i === 2}" data-t="${t}">${NAMES[t] || t}</button>`).join("");
+function show(tid) {
+  turnsEl.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.t === tid));
+  document.getElementById("cards").innerHTML = LOCALES.map((loc) => {
+    const d = data[loc], { secs, out } = lint(loc, tid);
+    const pct = Math.min(100, (secs / cfg.max_voice_seconds) * 100);
+    const say = esc(d.turns[tid]).replace(PH, (m) => `<mark>${m}</mark>`);
+    return `<article class="card loc" lang="${loc}">
+      <div class="head"><span class="code">${loc}</span><span class="tag">${esc(d.review_status)}</span></div>
+      <p class="say" style="margin:0">${say}</p>
+      <div><div class="meter ${secs > cfg.max_voice_seconds ? "over" : ""}" role="img" aria-label="About ${secs.toFixed(1)} seconds spoken"><i style="width:${pct}%"></i></div>
+      <div class="muted mono" style="margin-top:6px">~${secs.toFixed(1)}s spoken · ${esc(d.register.choice)}</div></div>
+      <ul class="findings">${out.map(([k, m]) => `<li class="${k}">${esc(m)}</li>`).join("")}</ul>
+    </article>`;
+  }).join("");
+}
+turnsEl.addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) show(b.dataset.t); });
+show("known_incident");
+
+document.getElementById("decisions").innerHTML = LOCALES.map((loc) => {
+  const d = data[loc];
+  return `<dl class="card dec" style="margin:0"><dt>${loc} · ${esc(d.language)}</dt>
+    <dd style="margin:8px 0 0"><b>${esc(d.register.choice)}</b><div class="muted" style="font-size:15px">${esc(d.register.rationale)}</div>
+    <div class="mono muted" style="margin-top:8px">Date ${esc(d.formats?.date)} · Currency ${esc(d.formats?.currency)}</div>
+    <ul>${(d.notes || []).map((n) => `<li>${esc(n)}</li>`).join("")}</ul></dd></dl>`;
+}).join("");
+
+const cols = ["term_id", ...LOCALES, "notes"];
+document.getElementById("gloss").innerHTML = `<table><thead><tr>${cols.map((c) => `<th>${c === "term_id" ? "Term" : c === "notes" ? "Notes" : c}</th>`).join("")}</tr></thead>
+  <tbody>${glossary.map((g) => `<tr>${cols.map((c) => `<td${LOCALES.includes(c) ? ` lang="${c}"` : ""}${c === "term_id" ? ' class="mono"' : ""}>${esc(g[c])}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+
+await Promise.all([...document.querySelectorAll("[data-md]")].map(async (el) => { el.innerHTML = marked.parse(await text(el.dataset.md)); }));
+trackTabs();
+</script>
+</body>
+</html>

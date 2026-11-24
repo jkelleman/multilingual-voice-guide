@@ -2,6 +2,9 @@
 
 # Multilingual Voice Guide: Voice and Tone Localization for Conversational AI
 
+**[Live guide](https://jkelleman.github.io/multilingual-voice-guide/)**: compare each support turn across five locales, with the linter's checks running in the page.
+
+
 [![Lint locales](https://github.com/jkelleman/multilingual-voice-guide/actions/workflows/lint.yml/badge.svg)](https://github.com/jkelleman/multilingual-voice-guide/actions/workflows/lint.yml)
 ![locales: en · es · pt · de · ja](https://img.shields.io/badge/locales-en%20%C2%B7%20es%20%C2%B7%20pt%20%C2%B7%20de%20%C2%B7%20ja-14627a)
 ![focus: voice & tone](https://img.shields.io/badge/focus-voice%20%26%20tone-7ce0c3)
@@ -39,6 +42,7 @@ Notice what changed besides the words: pt-BR says *assinantes* (subscribers) bec
 ## What's inside
 
 ```
+index.html                    the live page (GitHub Pages); reads the files below
 voice/core-voice.md           4 voice attributes, tone by moment, words to use/avoid, chat vs voice
 docs/adapting-patterns.md     how apologies, register, cancellation, and dates change by culture
 locales/*.yaml                7 support turns × 5 locales, with register decisions and notes
